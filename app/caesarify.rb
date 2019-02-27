@@ -7,6 +7,7 @@ require 'symbolized'
 require './app/caesar'
 require './app/config'
 require './app/panoptes'
+require './app/version'
 
 module Caesarify
   class OptionsError < StandardError; end
@@ -17,6 +18,7 @@ module Caesarify
     include Caesarify::App::Caesar
     include Caesarify::App::Config
     include Caesarify::App::Panoptes
+    include Caesarify::App::Version
 
     def initialize(args)
       @args = SymbolizedHash.new args

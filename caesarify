@@ -6,4 +6,6 @@ begin
   app = Caesarify::App.new args
   app.go
 rescue Caesarify::OptionsError
+rescue Object => e
+  puts e
 end

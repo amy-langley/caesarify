@@ -34,19 +34,21 @@ module Caesarify
     end
 
     def create_extractor(workflow_id, task)
+      puts task
     end
 
     def extract_tasks(workflow)
       workflow[:tasks].map do |task_key,task|
-        config = {}
-        config[:type] = task[:type]
-        config[:tools] = if task.key?(:tools)
-          task[:tools].map{ |tool| tool[:type] }
-        else
-          []
+        {}.tap do |config|
+          config[:key] = task_key
+          config[:type] = task[:type]
+          config[:tools] = if task.key?(:tools)
+            task[:tools].map{ |tool| tool[:type] }
+          else
+            []
+          end
         end
-        [task_key, config]
-      end.to_h
+      end
     end
 
     def caesar_url
@@ -71,6 +73,7 @@ module Caesarify
 
       parser.parse!
       puts parser.help unless valid_args? options
+      options
     end
 
     def self.valid_args? args

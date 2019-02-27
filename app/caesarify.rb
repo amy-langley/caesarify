@@ -12,6 +12,9 @@ module Caesarify
       @args = SymbolizedHash.new args
     end
 
+    def go
+    end
+
     def application_id
       ENV["APPLICATION_ID"]
     end

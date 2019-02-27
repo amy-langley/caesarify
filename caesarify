@@ -4,7 +4,7 @@ require './app/caesarify.rb'
 begin
   args = Caesarify::App::Config.parse_arguments
   app = Caesarify::App.new args
-  app.go
+  app.run
 rescue Caesarify::OptionsError
 rescue Object => e
   puts e

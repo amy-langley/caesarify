@@ -12,6 +12,6 @@ describe Caesarify::App do
 
   it 'does the thing' do
     app = described_class.new workflow_id: 3085
-    app.go
+    app.run
   end
 end

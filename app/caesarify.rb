@@ -23,7 +23,7 @@ module Caesarify
       raise OptionsError.new("Please specify a workflow") unless App::Config.valid_args? args
     end
 
-    def go
+    def run
       panoptes_workflow = SymbolizedHash.new Caesarify::App.panoptes.workflow(workflow_id)
       tasks = extract_tasks panoptes_workflow
 

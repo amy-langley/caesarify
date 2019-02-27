@@ -1,10 +1,18 @@
 require 'dotenv/load'
 require 'optparse'
+require 'panoptes-client'
 require 'pry'
 require 'symbolized'
 
 module Caesarify
   class OptionsError < StandardError; end
+
+  class FakePanoptes
+    def method_missing(method_name, *args)
+      Rails.logger.info(">>> Panoptes API call [#{method_name}], args: #{args.inspect}")
+      nil
+    end
+  end
 
   class App
     attr_accessor :args
@@ -15,18 +23,25 @@ module Caesarify
     end
 
     def go
+      workflow = SymbolizedHash.new Caesarify::App.panoptes.workflow(workflow_id)
+      puts extract_tasks workflow
     end
 
-    def application_id
-      ENV["APPLICATION_ID"]
+    def extract_tasks(workflow)
+      workflow[:tasks].map do |task_key,task|
+        config = {}
+        config[:type] = task[:type]
+        config[:tools] = if task.key?(:tools)
+          task[:tools].map{ |tool| tool[:type] }
+        else
+          []
+        end
+        [task_key, config]
+      end.to_h
     end
 
     def caesar_url
       ENV["CAESAR_URL"]
-    end
-
-    def oauth_secret
-      ENV["CAESARIFY_OAUTH_SECRET"]
     end
 
     def panoptes_url
@@ -54,6 +69,23 @@ module Caesarify
       return false if args.empty?
       return false unless ((args.key?(:workflow_id) || args.key?("workflow_id")))
       true
+    end
+
+    def self.panoptes
+      return @panoptes if @panoptes
+
+      if ENV.key?("PANOPTES_CLIENT_ID")
+        @panoptes = ::Panoptes::Client.new(env: "staging",
+                                         auth: {client_id: ENV.fetch("PANOPTES_CLIENT_ID"),
+                                                client_secret: ENV.fetch("PANOPTES_CLIENT_SECRET")},
+                                                params: {:admin => true})
+      else
+        @panoptes = FakePanoptes.new
+      end
+    end
+
+    def self.panoptes=(adapter)
+      @panoptes = adapter
     end
   end
 end

@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+require './app/caesarify.rb'
+
+begin
+  args = Caesarify::App.parse_arguments
+  app = Caesarify::App.new args
+  app.go
+rescue Caesarify::OptionsError
+end

@@ -16,3 +16,5 @@ gem "panoptes-client", "~> 0.3.8"
 gem "dotenv", "~> 2.7"
 
 gem "symbolized", "~> 0.0.1"
+
+gem "pry", "~> 0.12.2", :groups => [:development, :test]

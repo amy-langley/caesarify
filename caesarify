@@ -2,7 +2,7 @@
 require './app/caesarify.rb'
 
 begin
-  args = Caesarify::App.parse_arguments
+  args = Caesarify::App::Config.parse_arguments
   app = Caesarify::App.new args
   app.go
 rescue Caesarify::OptionsError

@@ -4,7 +4,7 @@ module Caesarify
     module Panoptes
       class FakePanoptes
         def method_missing(method_name, *args)
-          Rails.logger.info(">>> Panoptes API call [#{method_name}], args: #{args.inspect}")
+          logger.info(">>> Panoptes API call [#{method_name}], args: #{args.inspect}")
           nil
         end
       end

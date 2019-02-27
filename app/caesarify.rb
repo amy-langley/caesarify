@@ -27,7 +27,10 @@ module Caesarify
       tasks = extract_tasks panoptes_workflow
 
       create_workflow(workflow_id)
-      tasks.map{ |task| create_extractor(workflow_id, task) }
+      tasks.map do |task|
+        create_extractor(workflow_id, task)
+        create_reducer(workflow_id, task)
+      end
     end
 
     def create_workflow(workflow_id)
@@ -37,13 +40,16 @@ module Caesarify
       puts task
     end
 
+    def create_reducer(workflow_id, task)
+    end
+
     def extract_tasks(workflow)
       workflow[:tasks].map do |task_key,task|
         {}.tap do |config|
           config[:key] = task_key
           config[:type] = task[:type]
           config[:tools] = if task.key?(:tools)
-            task[:tools].map{ |tool| tool[:type] }
+            task[:tools].map{ |tool| tool[:type] }.uniq
           else
             []
           end

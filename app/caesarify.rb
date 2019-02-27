@@ -26,7 +26,7 @@ module Caesarify
     end
 
     def run
-      panoptes_workflow = SymbolizedHash.new Caesarify::App.panoptes.workflow(workflow_id)
+      panoptes_workflow = get_workflow workflow_id
       tasks = extract_tasks panoptes_workflow
 
       create_workflow(workflow_id)

@@ -12,4 +12,7 @@ gem "rest-client", "~> 2.0"
 
 gem "panoptes-client", "~> 0.3.8"
 
-gem "deep_merge", "~> 1.2"
+
+gem "dotenv", "~> 2.7"
+
+gem "symbolized", "~> 0.0.1"

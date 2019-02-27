@@ -23,14 +23,14 @@ module Caesarify
     end
 
     def go
-      workflow = SymbolizedHash.new Caesarify::App.panoptes.workflow(workflow_id)
-      tasks = extract_tasks workflow
-      caesar_workflow = create_workflow(workflow_id)
-      tasks.map{ |task| create_extractor(caesar_workflow[:id], task) }
+      panoptes_workflow = SymbolizedHash.new Caesarify::App.panoptes.workflow(workflow_id)
+      tasks = extract_tasks panoptes_workflow
+
+      create_workflow(workflow_id)
+      tasks.map{ |task| create_extractor(workflow_id, task) }
     end
 
     def create_workflow(workflow_id)
-      { id: workflow_id }
     end
 
     def create_extractor(workflow_id, task)
